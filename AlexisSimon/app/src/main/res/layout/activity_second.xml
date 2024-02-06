@@ -4,24 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".SecondActivity">
 
     <Button
-        android:id="@+id/goto_second_activity"
+        android:id="@+id/goto_main_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to second activity"
-        android:visibility="visible"
-        tools:layout_editor_absoluteX="115dp"
-        tools:layout_editor_absoluteY="404dp" />
+        android:text="Go to main activity"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="491dp" />
 
+    <Button
+        android:id="@+id/goto_third_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to third activity"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="539dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
