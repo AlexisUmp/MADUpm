@@ -12,13 +12,14 @@
         android:layout_height="wrap_content"
         android:text="Go to main activity"
         tools:layout_editor_absoluteX="39dp"
-        tools:layout_editor_absoluteY="491dp" />
+        tools:layout_editor_absoluteY="456dp" />
 
     <Button
         android:id="@+id/goto_third_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Go to third activity"
-        tools:layout_editor_absoluteX="39dp"
-        tools:layout_editor_absoluteY="539dp" />
+        app:layout_constraintTop_toBottomOf="@+id/goto_main_activity"
+        tools:layout_editor_absoluteX="39dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
