@@ -16,24 +16,24 @@ class OpenStreetMapActivity : AppCompatActivity() {
     private val TAG = "btaOpenStreetMapActivity"
     private lateinit var map: MapView
     val gymkhanaCoords = listOf(
-        GeoPoint(40.38779608214728, -3.627687914352839), // Tennis
-        GeoPoint(40.38788595319803, -3.627048250272035), // Futsal outdoors
-        GeoPoint(40.3887315224542, -3.628643539758645), // Fashion and design
-        GeoPoint(40.38926842612264, -3.630067893975619), // Topos
-        GeoPoint(40.38956358584258, -3.629046081389352), // Teleco
-        GeoPoint(40.38992125672989, -3.6281366497769714), // ETSISI
-        GeoPoint(40.39037466191718, -3.6270256763598447), // Library
-        GeoPoint(40.389855884803005, -3.626782180787362) // CITSEM
+        GeoPoint(40.42015608319648, -3.6912447228630003), // James Joyce Irish Pub
+        GeoPoint(40.416815496450475, -3.698427970319809), // Glass Bar by SIPS
+        GeoPoint(40.41683904048266, -3.701515742953153), // La Fontana de Oro
+        GeoPoint(40.41451918184525, -3.699927875238618), // El Imperfecto
+        GeoPoint(40.4155647618362, -3.7024598805131466), // The Room Madrid
+        GeoPoint(40.41710042799128, -3.706965991594933), // Bar Yambala
+        GeoPoint(40.42193591373181, -3.7033611027295037), // Santamaría Coctelería
+        GeoPoint(40.422883366836174, -3.6982541768368113) // Twist & Shout Bar
     )
     val gymkhanaNames = listOf(
-        "Tennis",
-        "Futsal outdoors",
-        "Fashion and design school",
-        "Topography school",
-        "Telecommunications school",
-        "ETSISI",
-        "Library",
-        "CITSEM"
+        "James Joyce Irish Pub",
+        "Glass Bar by SIPS",
+        "La Fontana de Oro",
+        "El Imperfecto",
+        "The Room Madrid",
+        "Bar Yambala",
+        "Santamaría Coctelería",
+        "Twist & Shout Bar"
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +102,7 @@ class OpenStreetMapActivity : AppCompatActivity() {
             val locationIndex = locationsCoords.indexOf(location)
             marker.title = "Marker at ${locationsNames[locationIndex]} ${location.latitude}, ${location.longitude}"
             marker.icon = ContextCompat.getDrawable(this, org.osmdroid.library.R.drawable.ic_menu_compass)
+            //marker.icon = ContextCompat.getDrawable(this, org.osmdroid.library.R.drawable.ic_menu_day)
             mapView.overlays.add(marker)
         }
         mapView.invalidate()
