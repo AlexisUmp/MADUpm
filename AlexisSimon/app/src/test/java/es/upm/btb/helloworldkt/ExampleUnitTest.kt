@@ -1,4 +1,4 @@
-package es.upm.alexissimon
+package es.upm.btb.helloworldkt
 
 import org.junit.Test
 
