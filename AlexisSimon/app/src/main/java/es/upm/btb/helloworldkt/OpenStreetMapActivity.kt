@@ -1,8 +1,10 @@
 package es.upm.btb.helloworldkt
 
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import org.osmdroid.config.Configuration
@@ -39,6 +41,13 @@ class OpenStreetMapActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_open_street_map)
         Log.d(TAG, "onCreate: The activity is being created.");
+
+        val buttonNext: Button = findViewById(R.id.quit_activity)
+        buttonNext.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         val bundle = intent.getBundleExtra("locationBundle")
         val location: Location? = bundle?.getParcelable("location")
         if (location != null) {
