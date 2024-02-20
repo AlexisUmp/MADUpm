@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         Log.d(TAG, "onCreate: The activity is being created.");
         println("Hello world!")
 
-        val buttonNext: Button = findViewById(R.id.mainButton)
+        val buttonNext: Button = findViewById(R.id.logInButton)
         buttonNext.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
             val bundle = Bundle()
