@@ -13,12 +13,22 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
+import androidx.loader.content.Loader
+import android.widget.ProgressBar
+import android.view.View
+
+
 
 class MainActivity : AppCompatActivity(), LocationListener {
     private val TAG = "btaMainActivity"
     private lateinit var locationManager: LocationManager
     private lateinit var latestLocation: Location
     private val locationPermissionCode = 2
+    private var isLoading = false
+    private lateinit var loader: ProgressBar
+    private  lateinit var buttonOsm: Button
+    private  lateinit var playAsGuestButton: Button
+    private  lateinit var buttonNext: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +37,29 @@ class MainActivity : AppCompatActivity(), LocationListener {
         Log.d(TAG, "onCreate: The activity is being created.");
         println("Hello world!")
 
-        val buttonNext: Button = findViewById(R.id.logInButton)
+        buttonNext = findViewById(R.id.logInButton)
+        playAsGuestButton = findViewById(R.id.playAsGuestButton)
+        buttonOsm = findViewById(R.id.osmButton)
+        loader = findViewById(R.id.loader)
+
+        loader.visibility = View.VISIBLE
+
+        buttonNext.isEnabled = isLoading
+        playAsGuestButton.isEnabled = isLoading
+        buttonOsm.isEnabled = isLoading
+
         buttonNext.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
             val bundle = Bundle()
+            bundle.putParcelable("location", latestLocation)
+            intent.putExtra("locationBundle", bundle)
+            startActivity(intent)
+        }
+
+        playAsGuestButton.setOnClickListener {
+            val intent = Intent(this, OpenStreetMapActivity::class.java)
+            val bundle = Bundle()
+
             bundle.putParcelable("location", latestLocation)
             intent.putExtra("locationBundle", bundle)
             startActivity(intent)
@@ -57,7 +86,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
             // whichever happens first
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
         }
-        val buttonOsm: Button = findViewById(R.id.osmButton)
+
         buttonOsm.setOnClickListener {
             if (latestLocation != null) {
                 val intent = Intent(this, OpenStreetMapActivity::class.java)
@@ -87,6 +116,13 @@ class MainActivity : AppCompatActivity(), LocationListener {
         latestLocation = location
         val textView: TextView = findViewById(R.id.mainTextView)
         textView.text = "Latitude: ${location.latitude}, Longitude: ${location.longitude}"
+
+        isLoading = true
+        buttonNext.isEnabled = true
+        playAsGuestButton.isEnabled = true
+        buttonOsm.isEnabled = true
+
+        loader.visibility = View.GONE
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
