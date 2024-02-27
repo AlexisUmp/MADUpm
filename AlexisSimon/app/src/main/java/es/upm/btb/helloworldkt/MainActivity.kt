@@ -11,12 +11,15 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import android.content.Intent
+import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
 import android.widget.ProgressBar
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import java.io.File
+import java.io.FileWriter
 
 
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -51,6 +54,18 @@ class MainActivity : AppCompatActivity(), LocationListener {
         playAsGuestButton.isEnabled = isLoading
         buttonOsm.isEnabled = isLoading
         settingsButton.isEnabled = isLoading
+
+        val root = File(this.filesDir, "Hello_World")
+        val file = File(root, "gps_coordinates.csv")
+        if (!root.exists() || !file.exists())
+        {
+            root.mkdir()
+            val fw = FileWriter(file)
+            fw.append("Test 500 10.2790086756443 22.12451430541 1\n" +
+                    "Test2 1000 21.951605144653 125.546852358 0")
+            fw.flush()
+            fw.close()
+        }
 
         buttonNext.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
