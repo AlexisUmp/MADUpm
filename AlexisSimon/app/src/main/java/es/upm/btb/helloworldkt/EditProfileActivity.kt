@@ -11,6 +11,7 @@ import android.util.Base64
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -27,8 +28,9 @@ class EditProfileActivity : AppCompatActivity() {
         val emailEditText = findViewById<EditText>(R.id.editTextEmail)
         val passwordEditText = findViewById<EditText>(R.id.editTextPassword)
 
-        nameEditText.setText(sr.getString("name", "Name:"))
-        emailEditText.setText(sr.getString("email", "Email:"))
+        nameEditText.hint = "Name: (" + sr.getString("name", "") + ")"
+        emailEditText.hint = "Email: (" + sr.getString("email", "") + ")"
+        passwordEditText.hint = "Password: "
 
         findViewById<Button>(R.id.buttonSave).setOnClickListener {
             val newName = nameEditText.text.toString()
@@ -43,5 +45,10 @@ class EditProfileActivity : AppCompatActivity() {
 
             startActivity(Intent(this, SecondActivity::class.java))
         }
+
+        if (getSharedPreferences("settings", Context.MODE_PRIVATE).getBoolean("dark_theme", false))
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }

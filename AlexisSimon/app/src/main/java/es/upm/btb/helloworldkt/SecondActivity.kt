@@ -6,6 +6,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Debug
+import android.text.InputFilter
+import android.text.InputType
+import android.text.Spanned
 import android.util.Base64
 import android.util.Log
 import android.widget.Button
@@ -15,6 +18,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import android.text.method.PasswordTransformationMethod
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -40,14 +45,21 @@ class SecondActivity : AppCompatActivity() {
         findViewById<Button>(R.id.secondPreviousButton).setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
+
+        if (getSharedPreferences("settings", Context.MODE_PRIVATE).getBoolean("dark_theme", false))
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
+    /*
     @SuppressLint("SetTextI18n")
     private fun askForUserIdentifier(sr: SharedPreferences, storedPassword: String?) {
         val input = EditText(this)
-        input.setText("Name / Email:")
+        input.hint = "Name / Email:"
         val passwordInput = EditText(this)
-        passwordInput.setText("Password:")
+        passwordInput.hint = "Password:"
+        passwordInput.inputType = 16
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.addView(input)
@@ -60,7 +72,7 @@ class SecondActivity : AppCompatActivity() {
             .setPositiveButton("Save") { _, _ ->
                 val userInput = input.text.toString()
                 val password = passwordInput.text.toString()
-                if (userInput.isNotBlank() && password.isNotBlank() && (userInput == sr.getString("name", "") || userInput == sr.getString("name", ""))  && password == storedPassword) {
+                if (userInput.isNotBlank() && password.isNotBlank() && (userInput == sr.getString("name", "") || userInput == sr.getString("email", ""))  && password == storedPassword) {
                     Toast.makeText(this, "Successfully registered.", Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(this, "Wrong Information.", Toast.LENGTH_LONG).show()
@@ -72,4 +84,39 @@ class SecondActivity : AppCompatActivity() {
             }
             .show()
     }
+    */
+
+
+    private fun askForUserIdentifier(sr: SharedPreferences, storedPassword: String?) {
+        val input = EditText(this)
+        input.hint = "Name / Email:"
+        val passwordInput = EditText(this)
+        passwordInput.hint = "Password:"
+        passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.VERTICAL
+        layout.addView(input)
+        layout.addView(passwordInput)
+        AlertDialog.Builder(this)
+            .setTitle("Enter User Identifier")
+            .setIcon(R.mipmap.ic_launcher)
+            .setView(layout)
+            .setPositiveButton("Save") { _, _ ->
+                val userInput = input.text.toString()
+                val password = passwordInput.text.toString()
+                if (userInput.isNotBlank() && password.isNotBlank() && (userInput == sr.getString("name", "") || userInput == sr.getString("email", "")) && password == storedPassword) {
+                    Toast.makeText(this, "Successfully registered.", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "Wrong Information.", Toast.LENGTH_LONG).show()
+                    askForUserIdentifier(sr, storedPassword)
+                }
+            }
+            .setNegativeButton("Register ?") { _, _ ->
+                startActivity(Intent(this, EditProfileActivity::class.java))
+            }
+            .show()
+    }
+
+
+
 }

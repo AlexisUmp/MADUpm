@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:height="30dp"
+        android:text="Sound"
+        android:textAlignment="center" />
+
+    <Switch
+        android:id="@+id/soundSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@id/textViewSound"
+        android:height="30dp"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:id="@+id/textViewVibration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewSound"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:height="30dp"
+        android:text="Vibration"
+        android:textAlignment="center" />
+
+    <Switch
+        android:id="@+id/vibrationSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/soundSwitch"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@id/textViewVibration"
+        android:height="30dp"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/darkThemeSwitch"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="Back"/>
+
+    <TextView
+        android:id="@+id/textViewDarkTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewVibration"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:height="30dp"
+        android:text="Dark Theme"
+        android:textAlignment="center" />
+
+    <Switch
+        android:id="@+id/darkThemeSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vibrationSwitch"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@id/textViewDarkTheme"
+        android:height="30dp"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+</RelativeLayout>

@@ -1,11 +1,13 @@
 package es.upm.btb.helloworldkt
 
+import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -62,7 +64,12 @@ class OpenStreetMapActivity : AppCompatActivity() {
             addMarker(startPoint, "My current location")
             addMarkersAndRoute(map, gymkhanaCoords, gymkhanaNames)
             //addMarkers(map, gymkhanaCoords, gymkhanaNames)
-        };
+        }
+
+        if (getSharedPreferences("settings", Context.MODE_PRIVATE).getBoolean("dark_theme", false))
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
     }
 

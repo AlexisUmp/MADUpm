@@ -1,6 +1,7 @@
 package es.upm.btb.helloworldkt
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -13,10 +14,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
-import androidx.loader.content.Loader
 import android.widget.ProgressBar
 import android.view.View
-
+import androidx.appcompat.app.AppCompatDelegate
 
 
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -28,8 +28,10 @@ class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var loader: ProgressBar
     private  lateinit var buttonOsm: Button
     private  lateinit var playAsGuestButton: Button
+    private  lateinit var settingsButton: Button
     private  lateinit var buttonNext: Button
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         buttonNext = findViewById(R.id.logInButton)
         playAsGuestButton = findViewById(R.id.playAsGuestButton)
+        settingsButton = findViewById(R.id.settingsButton)
         buttonOsm = findViewById(R.id.osmButton)
         loader = findViewById(R.id.loader)
 
@@ -47,12 +50,18 @@ class MainActivity : AppCompatActivity(), LocationListener {
         buttonNext.isEnabled = isLoading
         playAsGuestButton.isEnabled = isLoading
         buttonOsm.isEnabled = isLoading
+        settingsButton.isEnabled = isLoading
 
         buttonNext.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
             val bundle = Bundle()
             bundle.putParcelable("location", latestLocation)
             intent.putExtra("locationBundle", bundle)
+            startActivity(intent)
+        }
+
+        settingsButton.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
 
@@ -99,6 +108,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
             }
         }
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        if (getSharedPreferences("settings", Context.MODE_PRIVATE).getBoolean("dark_theme", false))
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -121,6 +135,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         buttonNext.isEnabled = true
         playAsGuestButton.isEnabled = true
         buttonOsm.isEnabled = true
+        settingsButton.isEnabled = true
 
         loader.visibility = View.GONE
     }
