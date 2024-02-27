@@ -19,7 +19,6 @@ import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-
 class MainActivity : AppCompatActivity(), LocationListener {
     private val TAG = "btaMainActivity"
     private lateinit var locationManager: LocationManager
@@ -75,18 +74,19 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 R.id.navigation_list -> {
                     val intent = Intent(this, SecondActivity::class.java)
                     startActivity(intent)
-
-                    buttonNext.setOnClickListener {
-                        val intent = Intent(this, SecondActivity::class.java)
-                        val bundle = Bundle()
-                        bundle.putParcelable("location", latestLocation)
-                        intent.putExtra("locationBundle", bundle)
-                        startActivity(intent)
-                        true
-                    }
-                    else -> false
+                    true
                 }
+
+                else -> false
             }
+        }
+
+        buttonNext.setOnClickListener {
+            val intent = Intent(this, SecondActivity::class.java)
+            val bundle = Bundle()
+            bundle.putParcelable("location", latestLocation)
+            intent.putExtra("locationBundle", bundle)
+            startActivity(intent)
         }
 
         playAsGuestButton.setOnClickListener {
