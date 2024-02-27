@@ -42,9 +42,12 @@ class SecondActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun askForUserIdentifier(sr: SharedPreferences, storedPassword: String?) {
         val input = EditText(this)
+        input.setText("Name / Email:")
         val passwordInput = EditText(this)
+        passwordInput.setText("Password:")
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.addView(input)
@@ -57,7 +60,7 @@ class SecondActivity : AppCompatActivity() {
             .setPositiveButton("Save") { _, _ ->
                 val userInput = input.text.toString()
                 val password = passwordInput.text.toString()
-                if (userInput.isNotBlank() && password.isNotBlank() && userInput == sr.getString("name", "") && password == storedPassword) {
+                if (userInput.isNotBlank() && password.isNotBlank() && (userInput == sr.getString("name", "") || userInput == sr.getString("name", ""))  && password == storedPassword) {
                     Toast.makeText(this, "Successfully registered.", Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(this, "Wrong Information.", Toast.LENGTH_LONG).show()

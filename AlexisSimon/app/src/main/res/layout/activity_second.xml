@@ -35,11 +35,12 @@
         android:layout_width="264dp"
         android:layout_height="18dp"
         android:layout_marginStart="177dp"
-        android:layout_marginTop="189dp"
+        android:layout_marginTop="356dp"
         android:layout_marginEnd="177dp"
         android:text="TextView"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/secondNextButton"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="@+id/secondPreviousButton"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,22 +49,13 @@
         android:layout_width="0dp"
         android:layout_height="18dp"
         android:layout_marginStart="73dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="73dp"
         android:text="TextView"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewName" />
-
-    <Button
-        android:id="@+id/editProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="170dp"
-        android:text="Register ?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
