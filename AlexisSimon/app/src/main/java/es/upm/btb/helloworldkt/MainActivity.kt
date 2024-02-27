@@ -16,6 +16,7 @@ import android.widget.Button
 import androidx.loader.content.Loader
 import android.widget.ProgressBar
 import android.view.View
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 
@@ -48,12 +49,44 @@ class MainActivity : AppCompatActivity(), LocationListener {
         playAsGuestButton.isEnabled = isLoading
         buttonOsm.isEnabled = isLoading
 
-        buttonNext.setOnClickListener {
-            val intent = Intent(this, SecondActivity::class.java)
-            val bundle = Bundle()
-            bundle.putParcelable("location", latestLocation)
-            intent.putExtra("locationBundle", bundle)
-            startActivity(intent)
+        // ButtomNavigationMenu
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.navigation_map -> {
+                    if (latestLocation != null) {
+                        val intent = Intent(this, OpenStreetMapActivity::class.java)
+                        val bundle = Bundle()
+                        bundle.putParcelable("location", latestLocation)
+                        intent.putExtra("locationBundle", bundle)
+                        startActivity(intent)
+                    } else {
+                        Log.e(TAG, "Location not set yet.")
+                    }
+                    true
+                }
+
+                R.id.navigation_list -> {
+                    val intent = Intent(this, SecondActivity::class.java)
+                    startActivity(intent)
+
+                    buttonNext.setOnClickListener {
+                        val intent = Intent(this, SecondActivity::class.java)
+                        val bundle = Bundle()
+                        bundle.putParcelable("location", latestLocation)
+                        intent.putExtra("locationBundle", bundle)
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
 
         playAsGuestButton.setOnClickListener {
