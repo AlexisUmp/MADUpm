@@ -1,24 +1,29 @@
 package es.upm.btb.helloworldkt
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import android.app.Activity
+import android.os.Debug
 import android.util.Base64
+import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import android.widget.EditText
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+
 
 class SecondActivity : AppCompatActivity() {
     private val TAG = "btaSecondActivity"
 
+    private val key = "iamakey"
 
     private fun String.encrypt(password: String): String {
         val secretKeySpec = SecretKeySpec(password.toByteArray(), "AES")
@@ -38,15 +43,19 @@ class SecondActivity : AppCompatActivity() {
     private fun askForUserIdentifier(sr : SharedPreferences) {
         val input = EditText(this)
         val passwordInput = EditText(this)
+        val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.VERTICAL
+        layout.addView(input)
+        layout.addView(passwordInput)
+
         AlertDialog.Builder(this)
             .setTitle("Enter User Identifier")
             .setIcon(R.mipmap.ic_launcher)
-            .setView(input)
-            .setView(input)
+            .setView(layout)
             .setPositiveButton("Save") { dialog, which ->
                 val userInput = input.text.toString()
                 val password = passwordInput.text.toString()
-                if (userInput.isNotBlank() && password.isNotBlank() && userInput == sr.getString("name", "") && password.encrypt(password) == sr.getString("password", "")) {
+                if (userInput.isNotBlank() && password.isNotBlank() && userInput == sr.getString("name", "") && password.encrypt(key) == sr.getString("password", "")) {
                     Toast.makeText(this, "Successfully registered.", Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(this, "Wrong Information.", Toast.LENGTH_LONG).show()
@@ -54,7 +63,9 @@ class SecondActivity : AppCompatActivity() {
                 }
             }
             .setNegativeButton("Register ?") { dialog, which ->
-                val intent = Intent(this, ThirdActivity::class.java)
+                val intent = Intent(this, EditProfileActivity::class.java)
+                intent.putExtra("name", "User")
+                intent.putExtra("email", "No email provided")
                 startActivity(intent)
             }
             .show()
@@ -80,17 +91,18 @@ class SecondActivity : AppCompatActivity() {
     data class User(val name: String?, val email: String?, val score: Int, val password: String)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
-        var sr : SharedPreferences = getSharedPreferences("label", 0)
+        val sr : SharedPreferences = getSharedPreferences("label", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
-        askForUserIdentifier(sr)
-        val user = getUserData(sr)
+        val user = getUserData()
         findViewById<TextView>(R.id.textViewName).text = user.name
         findViewById<TextView>(R.id.textViewEmail).text = user.email
+        val bundle = intent.getBundleExtra("locationBundle")
+        if (bundle != null && bundle.getInt("should") != 1) {
+            askForUserIdentifier(sr)
+        }
         findViewById<Button>(R.id.editProfile).setOnClickListener {
             val editIntent = Intent(this, EditProfileActivity::class.java)
-            editIntent.putExtra("name", user.name)
-            editIntent.putExtra("email", user.email)
             startActivity(editIntent)
         }
         val buttonNext: Button = findViewById(R.id.secondNextButton)
@@ -106,13 +118,14 @@ class SecondActivity : AppCompatActivity() {
         }
     }
 
-    private fun getUserData(sr : SharedPreferences): User {
+    private fun getUserData(): User {
+        val sr : SharedPreferences = getSharedPreferences("label", Context.MODE_PRIVATE)
         val score = sr.getInt("score", 0)
         val name = sr.getString("name", "User")
         val email = sr.getString("email", "No email provided")
         val password = sr.getString("password", "").toString()
         return if (password != "")
-            User(name, email, score, password.decrypt(password))
+            User(name, email, score, password.decrypt(key))
         else
             User(name, email, score, "")
     }
