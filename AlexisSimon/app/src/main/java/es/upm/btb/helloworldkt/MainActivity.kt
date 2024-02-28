@@ -17,6 +17,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -51,6 +52,29 @@ class MainActivity : AppCompatActivity(), LocationListener {
         playAsGuestButton.isEnabled = isLoading
         buttonOsm.isEnabled = isLoading
         settingsButton.isEnabled = isLoading
+
+        // ButtomNavigationMenu
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.navigation_profile -> {
+                    val intent = Intent(this, EditProfileActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.navigation_settings -> {
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
 
         buttonNext.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
