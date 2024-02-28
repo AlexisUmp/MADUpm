@@ -70,10 +70,12 @@ class ThirdActivity : AppCompatActivity() {
                 visitedCheckBox.isChecked = item[4] == "0"
                 visitedCheckBox.isClickable = false
                 view.setOnClickListener {
-                    val intent = Intent(context, ThirdActivity::class.java).apply {
-                        putExtra("latitude", item[2])
-                        putExtra("longitude", item[3])
-                    }
+                    val intent = Intent(context, SeeSpecificPointActivity::class.java)
+                    val bundle = Bundle()
+                    bundle.putDouble("latitude", item[2].toDouble())
+                    bundle.putDouble("longitude", item[3].toDouble())
+                    bundle.putString("name", item[0])
+                    intent.putExtra("bundle", bundle)
                     context.startActivity(intent)
                 }
             } catch (e: Exception) {
