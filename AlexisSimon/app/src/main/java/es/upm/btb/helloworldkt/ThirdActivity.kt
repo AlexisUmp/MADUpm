@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import java.io.File
 import java.io.FileReader
 import java.io.IOException
+import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -63,7 +64,9 @@ class ThirdActivity : AppCompatActivity() {
             val visitedCheckBox:CheckBox = view.findViewById(R.id.tvVisited)
             try{
                 val item = coordinatesList[position]
-                nameTextView.text = item[0]
+                var name = item[0]
+                name = convert(name)
+                nameTextView.text = name
                 scoreTextView.text = item[1].toInt().toString()
                 latitudeTextView.text = formatCoordinate(item[2].toDouble())
                 longitudeTextView.text = formatCoordinate(item[3].toDouble())
@@ -72,9 +75,11 @@ class ThirdActivity : AppCompatActivity() {
                 view.setOnClickListener {
                     val intent = Intent(context, SeeSpecificPointActivity::class.java)
                     val bundle = Bundle()
+                    bundle.putString("name", name)
+                    bundle.putInt("score", item[1].toInt())
                     bundle.putDouble("latitude", item[2].toDouble())
                     bundle.putDouble("longitude", item[3].toDouble())
-                    bundle.putString("name", item[0])
+                    bundle.putBoolean("found", item[4] == "0")
                     intent.putExtra("bundle", bundle)
                     context.startActivity(intent)
                 }
@@ -87,6 +92,18 @@ class ThirdActivity : AppCompatActivity() {
 
         private fun formatCoordinate(value: Double): String {
             return String.format("%.6f", value)
+        }
+
+        private fun convert(string: String):String {
+            val s = StringBuilder()
+            for (c in string) {
+                if (c == '_') {
+                    s.append(' ')
+                } else {
+                    s.append(c)
+                }
+            }
+            return s.toString()
         }
     }
     private fun readFileContents(): List<List<String>> {
@@ -101,48 +118,12 @@ class ThirdActivity : AppCompatActivity() {
             listOf(listOf("Error reading file: ${e.message}"))
         }
     }
+
+
+
 }
 
 
 
-class MatrixFileHandler {
-    fun readMatrixFromFile(filePath: String): Array<Quintuple<String, Int, Float, Float, Boolean>>? {
-        val file = File(filePath)
-        if (!file.exists()) {
-            println("File $filePath does not exist.")
-            return null
-        }
-
-        val matrix = mutableListOf<Quintuple<String, Int, Float, Float, Boolean>>()
-        for (line in file.readLines()) {
-            val elements = line.split(" ")
-            if (elements.size != 5) {
-                println("Invalid format in file $filePath")
-                return null
-            }
-            val strElement = elements[0]
-            val intElement = elements[1].toInt()
-            val floatElement1 = elements[2].toFloat()
-            val floatElement2 = elements[3].toFloat()
-            val booleanElement = elements[4].toBoolean()
-            val quintuple = Quintuple(strElement, intElement, floatElement1, floatElement2, booleanElement)
-            matrix.add(quintuple)
-        }
-        return matrix.toTypedArray()
-    }
-
-    fun writeMatrixToFile(matrix: Array<Quintuple<String, Int, Float, Float, Boolean>>, filePath: String) {
-        val file = File(filePath)
-        val writer = file.bufferedWriter()
-        for (quintuple in matrix) {
-            val line = "${quintuple.first} ${quintuple.second} ${quintuple.third} ${quintuple.fourth} ${quintuple.fifth}"
-            writer.write(line)
-            writer.newLine()
-        }
-        writer.close()
-    }
-}
-
-data class Quintuple<A, B, C, D, E>(val first: A, val second: B, val third: C, val fourth: D, val fifth: E)
 
 

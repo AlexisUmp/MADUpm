@@ -1,11 +1,14 @@
 package es.upm.btb.helloworldkt
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -19,6 +22,7 @@ import org.osmdroid.views.overlay.Polyline
 class SeeSpecificPointActivity : AppCompatActivity()  {
     private val TAG = "btaSpecificPointActivity"
     private lateinit var map: MapView
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_specific_point)
@@ -29,11 +33,22 @@ class SeeSpecificPointActivity : AppCompatActivity()  {
             val intent = Intent(this, ThirdActivity::class.java)
             startActivity(intent)
         }
-
+        val text_score : TextView = findViewById(R.id.text_score)
+        val text_name : TextView = findViewById(R.id.text_name)
+        val check_visited : CheckBox = findViewById(R.id.check_visited)
+        check_visited.isClickable = false
         val bundle = intent.getBundleExtra("bundle")
         val latitude = bundle?.getDouble("latitude")
         val longitude = bundle?.getDouble("longitude")
         val name = bundle?.getString("name")
+        val score = bundle?.getInt("score")
+        val found = bundle?.getBoolean("found")
+        if (score != null && found != null && name != null)
+        {
+            text_score.text = score.toString()
+            text_name.text = name
+            check_visited.isChecked = found
+        }
 
         if (latitude != null && longitude != null && name != null) {
             Configuration.getInstance().load(applicationContext, getSharedPreferences("osm", MODE_PRIVATE))
