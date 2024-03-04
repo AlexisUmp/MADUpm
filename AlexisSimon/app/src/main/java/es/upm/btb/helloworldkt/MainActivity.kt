@@ -18,6 +18,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.File
 import java.io.FileWriter
 
@@ -41,6 +42,34 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         Log.d(TAG, "onCreate: The activity is being created.");
         println("Hello world!")
+
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        navView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    navView.menu.findItem(R.id.navigation_home)?.isChecked = true
+                    true
+                }
+
+                R.id.navigation_notifications -> {
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                    navView.menu.findItem(R.id.navigation_home)?.isChecked = true
+                    true
+                }
+
+                R.id.navigation_dashboard -> {
+                    val intent = Intent(this, SecondActivity::class.java)
+                    startActivity(intent)
+                    navView.menu.findItem(R.id.navigation_home)?.isChecked = true
+                    true
+                }
+
+                else -> false
+            }
+        }
 
         buttonNext = findViewById(R.id.logInButton)
         playAsGuestButton = findViewById(R.id.playAsGuestButton)

@@ -10,6 +10,7 @@ import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.NightMode
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -17,6 +18,36 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        val menuItem = navView.menu.findItem(R.id.navigation_notifications)
+        menuItem.isChecked = true
+        navView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    navView.menu.findItem(R.id.navigation_home)?.isChecked = true
+                    true
+                }
+
+                R.id.navigation_notifications -> {
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    navView.menu.findItem(R.id.navigation_home)?.isChecked = true
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.navigation_dashboard -> {
+                    val intent = Intent(this, SecondActivity::class.java)
+                    navView.menu.findItem(R.id.navigation_home)?.isChecked = true
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
 
         val sr: SharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
 

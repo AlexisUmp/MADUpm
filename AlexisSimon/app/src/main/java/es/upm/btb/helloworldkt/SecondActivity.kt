@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import android.text.method.PasswordTransformationMethod
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -30,6 +31,37 @@ class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
+
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+
+        val menuItem = navView.menu.findItem(R.id.navigation_dashboard)
+        menuItem.isChecked = true
+        navView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    navView.menu.findItem(R.id.navigation_home)?.isChecked = true
+                    true
+                }
+
+                R.id.navigation_notifications -> {
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                    navView.menu.findItem(R.id.navigation_home)?.isChecked = true
+                    true
+                }
+
+                R.id.navigation_dashboard -> {
+                    val intent = Intent(this, SecondActivity::class.java)
+                    startActivity(intent)
+                    navView.menu.findItem(R.id.navigation_home)?.isChecked = true
+                    true
+                }
+
+                else -> false
+            }
+        }
 
         val sr: SharedPreferences = getSharedPreferences("label", Context.MODE_PRIVATE)
         val storedPassword = sr.getString("password", "")
