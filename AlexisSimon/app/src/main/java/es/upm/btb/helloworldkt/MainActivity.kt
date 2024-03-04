@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
     private lateinit var loader: ProgressBar
     private  lateinit var buttonOsm: Button
     private  lateinit var playAsGuestButton: Button
-    private  lateinit var settingsButton: Button
     private  lateinit var buttonNext: Button
 
     @SuppressLint("MissingInflatedId")
@@ -73,7 +72,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         buttonNext = findViewById(R.id.logInButton)
         playAsGuestButton = findViewById(R.id.playAsGuestButton)
-        settingsButton = findViewById(R.id.settingsButton)
         buttonOsm = findViewById(R.id.osmButton)
         loader = findViewById(R.id.loader)
 
@@ -82,7 +80,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
         buttonNext.isEnabled = isLoading
         playAsGuestButton.isEnabled = isLoading
         buttonOsm.isEnabled = isLoading
-        settingsButton.isEnabled = isLoading
 
         val root = File(this.filesDir, "Hello_World")
         val file = File(root, "gps_coordinates.csv")
@@ -124,11 +121,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
             val bundle = Bundle()
             bundle.putParcelable("location", latestLocation)
             intent.putExtra("locationBundle", bundle)
-            startActivity(intent)
-        }
-
-        settingsButton.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
 
@@ -202,7 +194,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
         buttonNext.isEnabled = true
         playAsGuestButton.isEnabled = true
         buttonOsm.isEnabled = true
-        settingsButton.isEnabled = true
 
         loader.visibility = View.GONE
     }
