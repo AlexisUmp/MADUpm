@@ -27,6 +27,7 @@ class SettingsActivity : AppCompatActivity() {
                 R.id.navigation_home -> {
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                     navView.menu.findItem(R.id.navigation_home)?.isChecked = true
                     true
                 }
@@ -35,6 +36,7 @@ class SettingsActivity : AppCompatActivity() {
                     val intent = Intent(this, SettingsActivity::class.java)
                     navView.menu.findItem(R.id.navigation_home)?.isChecked = true
                     startActivity(intent)
+                    finish()
                     true
                 }
 
@@ -42,6 +44,7 @@ class SettingsActivity : AppCompatActivity() {
                     val intent = Intent(this, SecondActivity::class.java)
                     navView.menu.findItem(R.id.navigation_home)?.isChecked = true
                     startActivity(intent)
+                    finish()
                     true
                 }
 

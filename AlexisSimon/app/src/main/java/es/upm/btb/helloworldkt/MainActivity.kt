@@ -48,13 +48,16 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 R.id.navigation_home -> {
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                     navView.menu.findItem(R.id.navigation_home)?.isChecked = true
                     true
                 }
 
                 R.id.navigation_notifications -> {
+
                     val intent = Intent(this, SettingsActivity::class.java)
                     startActivity(intent)
+                    finish()
                     navView.menu.findItem(R.id.navigation_home)?.isChecked = true
                     true
                 }
@@ -62,6 +65,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 R.id.navigation_dashboard -> {
                     val intent = Intent(this, SecondActivity::class.java)
                     startActivity(intent)
+                    finish()
                     navView.menu.findItem(R.id.navigation_home)?.isChecked = true
                     true
                 }
