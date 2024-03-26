@@ -18,9 +18,15 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.File
 import java.io.FileWriter
+import androidx.room.Room
+import es.upm.btb.helloworldkt.persistence.AppDatabase
+import es.upm.btb.helloworldkt.persistence.LocationEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -33,6 +39,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     private  lateinit var buttonOsm: Button
     private  lateinit var playAsGuestButton: Button
     private  lateinit var buttonNext: Button
+    lateinit var database: AppDatabase
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +80,9 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 else -> false
             }
         }
+
+        // Room database init
+        database = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "coordinates").build()
 
         buttonNext = findViewById(R.id.logInButton)
         playAsGuestButton = findViewById(R.id.playAsGuestButton)
@@ -190,9 +200,17 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
+
         latestLocation = location
         val textView: TextView = findViewById(R.id.mainTextView)
-        textView.text = "Latitude: ${location.latitude}, Longitude: ${location.longitude}"
+        val newLocation = LocationEntity(
+            latitude = location.latitude,
+            longitude = location.longitude,
+            timestamp = System.currentTimeMillis()
+        )
+        lifecycleScope.launch(Dispatchers.IO) {
+            database.locationDao().insertLocation(newLocation)
+        }
 
         isLoading = true
         buttonNext.isEnabled = true
