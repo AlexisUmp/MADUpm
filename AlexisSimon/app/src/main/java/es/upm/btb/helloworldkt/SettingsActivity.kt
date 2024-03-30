@@ -14,7 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class SettingsActivity : AppCompatActivity() {
 
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    @SuppressLint("UseSwitchCompatOrMaterialCode", "MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -83,6 +83,12 @@ class SettingsActivity : AppCompatActivity() {
                 getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             else
                 getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
+        val qrButton = findViewById<Button>(R.id.buttonQR)
+        qrButton.setOnClickListener {
+            val intent = Intent(this, QrCodeActivity::class.java)
+            startActivity(intent)
         }
 
         val backButton = findViewById<Button>(R.id.buttonBack)
