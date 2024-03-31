@@ -42,6 +42,9 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".QrCodeActivity"
+            android:exported="false" />
+        <activity
             android:name=".SecondActivity"
             android:exported="false">
             <meta-data

@@ -62,6 +62,21 @@ https://upm365-my.sharepoint.com/:v:/g/personal/simon_bellegy_alumnos_upm_es/EVz
 - Menu: Toolbar
 - Sensors: GPS coordinates
 
+## Features
+List the **functional** features of the app:
+- Search for graffitis in Madrid.
+- Interactive maps.
+
+List the **technical** features of the app. You might include specific references to source code
+in your repo. For example:
+- Persistence in csv/text file
+- Persistence in shared preferences
+- Maps: Openstreetmaps
+- Resful APIs used (*e.g., Openwheathermaps https://openweathermap.org/api .Describe the api here*). 
+- Menu: Toolbar
+- Sensors: GPS coordinates 
+>>>>>>> qrcode
+
 ## How to Use
 To use the application, nothing could be simpler. All you have to do is create an account (or you can also play as a guest) and launch the map. You will have the list of all the graffiti to visit in Madrid. You can also see the list of all graffiti and see their location one by one. Once you have visited one, you can check the “visited” box to claim your points.
 
