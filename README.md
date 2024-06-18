@@ -2,8 +2,8 @@
 
 ## Workspace 
 Github:  
-- Repository: https://github.com/AlexisUmp/MADUpm  
-- Releases: https://github.com/AlexisUmp/MADUpm/releases  
+- Repository: https://github.com/M-Exal/MADUpm  
+- Releases: https://github.com/M-Exal/MADUpm/releases  
 
 Workspace: https://upm365.sharepoint.com/sites/MobileAppSite .  
   
